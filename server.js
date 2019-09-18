@@ -22,6 +22,21 @@ app.get('/', (req, res) => {
   res.json({ message: 'Hello World!' })
 })
 
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello World!' })
+})
+
+app.get('/clients', (req, res) => {
+  knex('mpc_clients')
+    .select('*')
+    .then(data => {
+      res.status(200).json(data)
+    })
+    .catch(e => {
+      res.status(500).send(`Error: ${e}`)
+    })
+})
+
 app.listen(port, () => {
   console.log(`Server listening on ${port}`)
 })
