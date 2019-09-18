@@ -29,8 +29,17 @@ app.get("/clients/:id", (req, res) => {
   .where('id', clientId)
   .select('*')
   .then( data => {
-    knex.destroy()
-    res.json(data)
+    if (data.length < 1){
+      res.status(404)
+      .send(`No clients with id ${clientId}`)
+    } else {
+      res.status(200)
+      .json(data)
+    }
+  })
+  .catch(e => {
+    res.status(500)
+    .send(`Error: ${e}`)
   })
 })
 
