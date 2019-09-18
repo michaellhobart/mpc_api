@@ -27,8 +27,10 @@ app.get("/clients", (req, res) => {
   knex('mpc_clients')
   .select('*')
   .then( data => {
-    knex.destroy()
-    res.json(data)
+    res.status(200).json(data)
+  })
+  .catch(e => {
+    res.status(500).send(`Error: ${e}`)
   })
 });
 
