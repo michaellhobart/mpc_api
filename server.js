@@ -22,6 +22,37 @@ app.get('/', (req, res) => {
   res.json({ message: 'Hello World!' })
 })
 
+app.get('/clients', (req, res) => {
+  knex('mpc_clients_test')
+    .select('*')
+    .then(data => {
+      res.status(200).json(data)
+    })
+    .catch(e => {
+      res.status(500).send(`Error: ${e}`)
+    })
+})
+
+app.get('/clients/:id', (req, res) => {
+  const clientId = req.params.id
+  knex('mpc_clients_test')
+    .where('id', clientId)
+    .select('*')
+    .then(data => {
+      if (data.length < 1) {
+        res.status(404)
+          .send(`No clients with id ${clientId}`)
+      } else {
+        res.status(200)
+          .json(data)
+      }
+    })
+    .catch(e => {
+      res.status(500)
+        .send(`Error: ${e}`)
+    })
+})
+
 app.post('/newclient', (req, res) => {
   const newClient = req.body
   console.log(newClient)
