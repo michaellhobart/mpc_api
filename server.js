@@ -22,10 +22,6 @@ app.get('/', (req, res) => {
   res.json({ message: 'Hello World!' })
 })
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello World!' })
-})
-
 app.get('/clients', (req, res) => {
   knex('mpc_clients')
     .select('*')
