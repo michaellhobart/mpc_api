@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/clients', (req, res) => {
-  knex('mpc_clients')
+  knex('mpc_clients_test')
     .select('*')
     .then(data => {
       res.status(200).json(data)
@@ -35,7 +35,7 @@ app.get('/clients', (req, res) => {
 
 app.get('/clients/:id', (req, res) => {
   const clientId = req.params.id
-  knex('mpc_clients')
+  knex('mpc_clients_test')
     .where('id', clientId)
     .select('*')
     .then(data => {
@@ -50,6 +50,25 @@ app.get('/clients/:id', (req, res) => {
     .catch(e => {
       res.status(500)
         .send(`Error: ${e}`)
+    })
+})
+
+app.post('/newclient', (req, res) => {
+  const newClient = req.body
+
+  knex('mpc_clients_test')
+    .returning(['id', 'client_name'])
+    .insert({
+      client_name: newClient.client_name,
+      email: newClient.email,
+      phone: newClient.phone,
+      contact: newClient.contact
+    })
+    .then(data => {
+      res.status(201).json(data)
+    })
+    .catch(e => {
+      res.status(500).send(`Error: ${e}`)
     })
 })
 
