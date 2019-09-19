@@ -55,7 +55,6 @@ app.get('/clients/:id', (req, res) => {
 
 app.post('/newclient', (req, res) => {
   const newClient = req.body
-  console.log(newClient)
 
   knex('mpc_clients_test')
     .returning(['id', 'client_name'])
@@ -66,7 +65,7 @@ app.post('/newclient', (req, res) => {
       contact: newClient.contact
     })
     .then(data => {
-      res.status(200).json(data)
+      res.status(201).json(data)
     })
     .catch(e => {
       res.status(500).send(`Error: ${e}`)
