@@ -85,7 +85,13 @@ app.put('/updateclient/:id', (req, res) => {
       phone: updateClient.phone,
       contact: updateClient.contact
     })
-    .then(data => res.status(200).json(data))
+    .then(data => {
+      if (data.length == 0){
+        res.status(404).send(`No client found with id ${clientId}.`)
+      } else {
+        res.status(200).json(data)
+      }
+    })
     .catch(e => res.status(500).send(`Error: ${e}`))
 })
 
