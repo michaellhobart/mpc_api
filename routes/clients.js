@@ -24,6 +24,25 @@ router.get('/', (req, res) => {
     })
 })
 
+router.post('/', (req, res) => {
+  const newClient = req.body
+
+  knex('mpc_clients_test')
+    .returning(['id', 'client_name'])
+    .insert({
+      client_name: newClient.client_name,
+      email: newClient.email,
+      phone: newClient.phone,
+      contact: newClient.contact
+    })
+    .then(data => {
+      res.status(201).json(data)
+    })
+    .catch(e => {
+      res.status(500).send(`Error: ${e}`)
+    })
+})
+
 router.get('/:id', (req, res) => {
   const clientId = req.params.id
   knex('mpc_clients_test')
@@ -44,26 +63,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.post('/new', (req, res) => {
-  const newClient = req.body
-
-  knex('mpc_clients_test')
-    .returning(['id', 'client_name'])
-    .insert({
-      client_name: newClient.client_name,
-      email: newClient.email,
-      phone: newClient.phone,
-      contact: newClient.contact
-    })
-    .then(data => {
-      res.status(201).json(data)
-    })
-    .catch(e => {
-      res.status(500).send(`Error: ${e}`)
-    })
-})
-
-router.put('/update/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   const clientId = req.params.id
   const updateClient = req.body
 
